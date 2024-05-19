@@ -1,0 +1,36 @@
+td {
+  text-align: center;
+  min-width: 130px;
+  position: relative;
+}
+table {
+  overflow: auto;
+}
+tbody td {
+  padding: 5px;
+  background-color: rgb(234, 234, 248);
+}
+tr {
+  border: 0.5px solid rgba(25, 53, 131, 0.192);
+}
+td.Titles {
+  background: transparent;
+  padding: 60px;
+  font-size: 30px;
+}
+.returnT td {
+  background-color: transparent;
+}
+.filterNav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 20px;
+  overflow: hidden;
+  transition: 0.5s all ease-in-out;
+}
+.close {
+  width: 0 !important;
+  padding: 0px;
+  min-width: 0px !important;
+}

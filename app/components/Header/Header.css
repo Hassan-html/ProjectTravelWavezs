@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav.strip span {
+  padding: 0px 3px;
+  width: 100px;
+  margin: 2px;
+  border-left: 1px solid rgb(225, 225, 225);
+  border-left: 1px solid rgb(234, 234, 234);
+}
+nav.main {
+  transition: 0.5s all ease-in-out;
+}
+.toTop {
+  opacity: 1;
+}

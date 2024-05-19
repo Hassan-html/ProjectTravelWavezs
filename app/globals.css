@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: "#189ab4";
+  --secondary: "#05445E";
+}
+html {
+  scroll-behavior: smooth;
+  letter-spacing: 1px;
+}
+button {
+  @apply px-4 py-2;
+}
+.spaced-title {
+  letter-spacing: 5px;
+}
+.homeSec1 > article {
+  @apply w-full lg:h-full rounded-[10px] shadow-lg cursor-pointer hover:bg-Dark hover:text-white h-[300px] hover:shadow-Dark;
+}
+article .icon {
+  @apply absolute top-[-20px] flex justify-center items-center w-[50px] h-[50px] rounded-full text-secondary border-secondary border-2;
+}
+article:hover .icon {
+  @apply text-white bg-Light border-none;
+}

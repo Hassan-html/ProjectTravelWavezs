@@ -1,0 +1,7 @@
+.scrolled-section {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrolled-section::-webkit-scrollbar {
+  display: none;
+}
