@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { connect } from "@/app/api/dbconfig/mongoseConfig";
-import { TicketModel } from "@/app/api/models/TicketModel";
+import { TicketModel } from "@/app/api/models/ticketModel";
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
   try {
