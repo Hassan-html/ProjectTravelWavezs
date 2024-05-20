@@ -12,20 +12,6 @@ export async function middleware(request: NextRequest) {
     (token && url.pathname.includes("/resetPass"))
   ) {
     return NextResponse.rewrite(new URL("/", request.url));
-  } else if (
-    !token &&
-    (url.pathname.includes("/user") || url.pathname.includes("/admin"))
-  ) {
-    return NextResponse.rewrite(new URL("/", request.url));
-  }
-  // checking if admin
-  else if (!token?.isAdmin && url.pathname.includes("/pages/admin")) {
-    console.log("user: " + token);
-
-    return NextResponse.rewrite(new URL("/pages/user/Home", request.url));
-  } else if (token?.isAdmin && url.pathname.includes("/user/Home")) {
-    console.log("Admin: " + token);
-    return NextResponse.rewrite(new URL("/pages/admin/Home", request.url));
   }
 
   return NextResponse.next();
