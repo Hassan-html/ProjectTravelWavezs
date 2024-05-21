@@ -5,8 +5,8 @@ export const POST = async (request: NextRequest) => {
   const body = await request.json();
   try {
     await connect();
-    console.log(body);
-    const data = await TicketModel.findOne({ id: body.id });
+    const id = body?.param.id;
+    const data = await TicketModel.findOne({ _id: body?.param.id });
     console.log(data);
     return NextResponse.json({ message: data }, { status: 200 });
   } catch (error) {
