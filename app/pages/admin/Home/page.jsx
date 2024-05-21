@@ -186,7 +186,7 @@ const pages = () => {
                                               className="bg-red-600 text-white hover:scale-110
                                             p-2"
                                             >
-                                              <FaTrash />
+                                              Del
                                             </button>
                                             <Link
                                               href={`/pages/admin/Tickets/${item._id}`}
