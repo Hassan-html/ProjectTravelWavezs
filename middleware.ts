@@ -14,7 +14,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL("/", request.url));
   } else if (
     !token &&
-    (url.pathname.includes("/pages/user") || url.pathname.includes("/pages/admin"))
+    (url.pathname.includes("/pages/user") ||
+      url.pathname.includes("/pages/admin"))
   ) {
     return NextResponse.rewrite(new URL("/", request.url));
   }
@@ -23,7 +24,7 @@ export async function middleware(request: NextRequest) {
     console.log("user: " + token);
 
     return NextResponse.rewrite(new URL("/pages/user/Home", request.url));
-  } else if (token?.isAdmin && url.pathname.includes("/user/Home")) {
+  } else if (token?.isAdmin && url.pathname.includes("/pages/user/Home")) {
     console.log("Admin: " + token);
     return NextResponse.rewrite(new URL("/pages/admin/Home", request.url));
   }
