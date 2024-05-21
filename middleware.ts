@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL("/", request.url));
   } else if (
     !token &&
-    (url.pathname.includes("/user") || url.pathname.includes("/admin"))
+    (url.pathname.includes("/pages/user") || url.pathname.includes("/pages/admin"))
   ) {
     return NextResponse.rewrite(new URL("/", request.url));
   }
