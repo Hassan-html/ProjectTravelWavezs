@@ -39,7 +39,7 @@ const pages = () => {
       <section>
         <div className="Title bg-Dark bg-opacity-10 shadow-xl p-4 min-h-30px flex flex-col justify-center items-center"></div>
         <h1 className="text-primary text-center text-[40px] p-6">
-          Admin-Bookings
+          User-Booking
         </h1>
         <div className="buttons flex m-6 items-center gap-2">
           <button
