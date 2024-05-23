@@ -151,7 +151,16 @@ const pages = () => {
                       <tr>
                         {" "}
                         <td colSpan="9">
-                          <h1>{airline}</h1>
+                          <h1 className="flex gap-2 justify-center items-center overflow-hidden">
+                            <img
+                              src={`/airlines/${airline
+                                .replace(/\s/g, "")
+                                .toLowerCase()}.png`}
+                              alt="img"
+                              width="150px"
+                            />
+                            {airline}
+                          </h1>
                         </td>
                       </tr>
                       {data.map((item, index) => {

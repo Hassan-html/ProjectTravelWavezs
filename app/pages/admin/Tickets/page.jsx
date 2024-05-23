@@ -4,6 +4,30 @@ import "./style.css";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FloatingLabel } from "flowbite-react";
+
+const airlines = [
+  "Salam Air",
+  "Oman Air",
+  "Air Arabia",
+  "Fly Dubai",
+  "Emirates",
+  "Etihad Airways",
+  "Vizz Airline",
+  "Qatar Airways",
+  "Flynass",
+  "Saudi Airline",
+  "PIA",
+  "Air Sial",
+  "Air Blue",
+  "Seren Air",
+  "Fly Jinnah",
+  "Turkish Airline",
+  "Gulf Air",
+  "Sirilankan Airline",
+  "Malindo Air",
+  "Thai Airways",
+];
+
 const page = () => {
   const [tickets, setTickets] = useState({ tickets: [], details: {} });
   const [ticket, setTicket] = useState({});
@@ -11,6 +35,9 @@ const page = () => {
   const [categories, setCategories] = useState("");
   const [hold, setHold] = useState("");
   const [ct, setCt] = useState(0);
+  const regex = new RegExp(ticket.airLine + "\\s*", "i");
+  const FiltArray = airlines.filter((airline) => regex.test(airline));
+  const [chng, setChng] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -133,7 +160,7 @@ const page = () => {
             <input
               type="text"
               name="floating_email"
-              id="floating_email"
+              id="floating_email "
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               onChange={(e) => {
@@ -152,12 +179,19 @@ const page = () => {
             <input
               type="text"
               name="floating_email"
-              id="floating_email"
+              id="floating_email filter"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
+              value={ticket.airLine}
               onChange={(e) => {
                 setTicket({ ...ticket, airLine: e.target.value });
+                if (e.target.value.length <= 1) {
+                  return setChng(false);
+                } else {
+                  return setChng(true);
+                }
               }}
+              autoComplete="off"
               required
             />
             <label
@@ -166,6 +200,27 @@ const page = () => {
             >
               AirLine
             </label>
+            <div
+              className={`hidden${
+                chng ? "flex flex-col w-[300px] p-4 bg-white " : ""
+              }`}
+            >
+              {FiltArray.map((item) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTicket({ ...ticket, airLine: item });
+                      setChng(false);
+                      console.log(chng);
+                    }}
+                    className={`hidden${chng ? "block " : ""}`}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="relative z-0 w-full mb-5 group">
