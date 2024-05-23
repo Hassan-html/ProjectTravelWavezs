@@ -1,36 +1,47 @@
 "use client";
-import { BsWhatsapp } from "react-icons/bs";
-
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import Link from "next/link";
-import ONE from "@/app/components/Tickets/oneWay/ONE";
-import RTicket from "@/app/components/Tickets/Return/RTicket";
-import {
-  FaPlaneArrival,
-  FaPlaneDeparture,
-  FaSearchengin,
-} from "react-icons/fa6";
+import { BsWhatsapp } from "react-icons/bs";
+
+import { FaCartShopping, FaPencil, FaTrash } from "react-icons/fa6";
 import { HiSearch } from "react-icons/hi";
+import axios from "axios";
+import toast from "react-hot-toast";
 const pages = () => {
-  const [user, setUser] = useState();
   const [filterNav, setFilterNav] = useState(false);
-  const getuser = async () => {
-    fetch("/api/user")
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+  const [data, setData] = useState([]);
+  const [airLines, setAirLines] = useState([]);
+
   useEffect(() => {
-    getuser();
+    axios
+      .post("/api/public/Tickets", [])
+      .then((res) => {
+        console.log(res);
+        setData(res.data.message);
+      })
+      .catch((err) => console.log(err));
   }, []);
+  useEffect(() => {
+    if (data.length > 0) {
+      console.log(data);
+      const items = data.map((item, index) => {
+        return item.tickets[0].airLine;
+      });
+      let values = new Set(items);
+      setAirLines([...values]);
+      console.log(data, values);
+    }
+  }, [data]);
+
   return (
     <>
       <section>
         <div className="Title bg-Dark bg-opacity-10 shadow-xl p-4 min-h-30px flex flex-col justify-center items-center"></div>
         <h1 className="text-primary text-center text-[40px] p-6">
-          User-Bookings
+          Admin-Bookings
         </h1>
-        <div className="buttons flex gap-2">
+        <div className="buttons flex m-6 items-center gap-2">
           <button
             className="bg-Dark text-white m-2 "
             onClick={() => {
@@ -39,7 +50,7 @@ const pages = () => {
           >
             Advance Search
           </button>
-          <Link href="https://wa.me/+966562741215?text=Salam!%20I%20would%20Like%20to%20inquire%20about%20Bookings%20!">
+          <Link href="/pages/admin/Tickets">
             <button
               className="bg-green-400 text-white m-2 flex gap-2 justify-center items-center "
               onClick={() => {
@@ -92,30 +103,104 @@ const pages = () => {
               </div>
             </div>
           </section>
-          <table className="text-sm w-full ">
-            <thead>
-              <tr>
-                <td>AirLine</td>
-                <td>FlighNo</td>
-                <td>Sector</td>
-                <td>Date</td>
-                <td>Time</td>
-                <td>Baggage</td>
-                <td>Meal</td>
-                <td>Booked</td>
-                <td>Price</td>
-                <td>Action</td>
-              </tr>
-            </thead>
-            <tbody>
-              {/* one way ticket */}
+          <section className="homeTableWraper">
+            <table>
+              <thead>
+                <tr>
+                  <td>AirLine</td>
+                  <td>Flight No</td>
+                  <td>Sector</td>
+                  <td>Date</td>
+                  <td>Depart/Arrive</td>
+                  <td>Baggage</td>
+                  <td>Meal</td>
+                  <td>Price</td>
+                  <td>Action</td>
+                </tr>
+              </thead>
 
-              <ONE />
-
-              {/* Return Tickets */}
-              <RTicket />
-            </tbody>
-          </table>
+              {airLines.length > 0 ? (
+                airLines.map((airline, inde) => {
+                  return (
+                    <>
+                      <tr>
+                        {" "}
+                        <td colSpan="9">
+                          <h1 className="flex gap-2 justify-center items-center overflow-hidden">
+                            <img
+                              src={`/airlines/${airline
+                                .replace(/\s/g, "")
+                                .toLowerCase()}.png`}
+                              alt="img"
+                              width="150px"
+                            />
+                            {airline}
+                          </h1>
+                        </td>
+                      </tr>
+                      {data.map((item, index) => {
+                        if (item.tickets[0].airLine == airline) {
+                          return (
+                            <>
+                              <tbody key={index}>
+                                {item.tickets.map((ticket, ind) => {
+                                  return (
+                                    <tr>
+                                      <td>{ticket.airLine}</td>
+                                      <td>{ticket.flightNo}</td>
+                                      <td>{ticket.Sector}</td>
+                                      <td>{ticket.DepartureDate}</td>
+                                      <td>
+                                        {ticket.DepartureTime}/
+                                        {ticket.ArrivalTime}
+                                      </td>
+                                      <td>{ticket.Baggage}</td>
+                                      <td>{ticket.Meal}</td>
+                                      {ind === 0 && (
+                                        <td rowSpan={item.tickets.length}>
+                                          {item.details.price}
+                                        </td>
+                                      )}
+                                      {ind === 0 && (
+                                        <td rowSpan={item.tickets.length}>
+                                          <div className="flex gap-2 justify-center items-center">
+                                            <Link
+                                              href={`/pages/user/Tickets/${item._id}`}
+                                              className="bg-primary text-white rounded-md hover:scale-110
+                                               py-2 px-4 flex gap-2 justify-center items-center"
+                                            >
+                                              <FaCartShopping /> Book
+                                            </Link>
+                                          </div>
+                                        </td>
+                                      )}
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </>
+                          );
+                        }
+                      })}
+                    </>
+                  );
+                })
+              ) : (
+                <tr className="TicketTitle">
+                  <td colSpan="11" className="Titles">
+                    <div className="h-[500px] flex flex-col justify-center items-center gap-[10px]">
+                      <h1 className="text-[35px] mb-6">
+                        Please Wait We are Fetching Data
+                      </h1>
+                      <p className="text-sm">
+                        Reload page if it take longer than 1 minute
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </table>
+          </section>
         </section>
       </section>
     </>
